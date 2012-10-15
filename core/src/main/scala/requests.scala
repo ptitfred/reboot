@@ -64,6 +64,14 @@ trait HeaderVerbs extends RequestVerbs {
     }
 }
 
+trait CookieVerbs extends RequestVerbs {
+  def <$< (cs: Traversable[Cookie]) =
+    (subject /: cs) {
+      case (s, c) =>
+        s.addCookie(c)
+    }
+}
+
 trait ParamVerbs extends RequestVerbs {
   private def defaultMethod(method: String) = {
     if (subject.build.getMethod.toUpperCase == "GET")
